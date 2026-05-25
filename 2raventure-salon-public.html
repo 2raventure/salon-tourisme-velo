@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2R Aventure · Vélodrome de Roubaix</title>
+<link href="https://fonts.googleapis.com/css2?family=Asap:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --f:#004A4F;--t:#3ECDC5;--c:#FBF7F3;--g:#4D4D4D;--w:#fff;
+  --fl:rgba(0,74,79,0.07);--tl:rgba(62,205,197,0.12);--tm:rgba(62,205,197,0.22);
+  --bd:rgba(0,74,79,0.09);--amber:#BA7517;--amber-bg:rgba(186,117,23,0.10);
+}
+html{font-family:'Asap',sans-serif;background:#e8e3dd;color:var(--g);-webkit-tap-highlight-color:transparent}
+body{min-height:100vh}
+.page-wrap{max-width:960px;margin:0 auto;padding:2rem 1.5rem 4rem}
+
+/* HERO */
+.hero{background:var(--t);border-radius:20px;padding:2.5rem 2.5rem 2rem;margin-bottom:1rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-80px;right:-60px;width:260px;height:260px;border-radius:50%;background:var(--f);opacity:0.06;pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-50px;left:-30px;width:160px;height:160px;border-radius:50%;background:var(--f);opacity:0.04;pointer-events:none}
+.hero-eye{font-size:0.62rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--f);margin-bottom:0.5rem;opacity:0.65}
+.hero-title{font-size:2.2rem;font-weight:700;color:var(--f);line-height:1.08;margin-bottom:0.5rem}
+.hero-title em{color:#fff;font-style:normal}
+.hero-sub{font-size:0.78rem;color:rgba(0,74,79,0.55);line-height:1.65;max-width:480px;margin-bottom:1rem}
+.hero-badge{display:inline-block;background:var(--f);color:var(--t);font-size:0.6rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:4px 14px;border-radius:100px}
+
+/* STAND PILL */
+.stand-pill{display:flex;align-items:center;gap:0.6rem;background:var(--f);border-radius:14px;padding:0.65rem 1rem;margin-bottom:1.25rem}
+.stand-pill-ico{font-size:1rem;flex-shrink:0}
+.stand-pill-txt{font-size:0.63rem;color:rgba(255,255,255,0.7);line-height:1.4}
+.stand-pill-txt strong{color:var(--t)}
+
+/* TABS */
+.tabs-wrap{background:var(--w);border-radius:16px;border:1px solid var(--bd);overflow:hidden;margin-bottom:1.5rem}
+.tabs{display:flex;border-bottom:1px solid var(--bd);overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex-shrink:0;padding:0.85rem 1.1rem;font-family:'Asap',sans-serif;font-size:0.6rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:var(--g);cursor:pointer;border:none;background:transparent;border-bottom:2px solid transparent;transition:all 0.18s;white-space:nowrap;opacity:0.5}
+.tab.active{color:var(--f);border-bottom-color:var(--t);background:var(--c);opacity:1}
+.tab-body{padding:1.25rem 1.5rem 1.5rem}
+
+/* SECTION LABEL */
+.slbl{font-size:0.55rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--f);opacity:0.38;margin:1.25rem 0 0.65rem;display:flex;align-items:center;gap:7px}
+.slbl::after{content:'';flex:1;height:1px;background:var(--f);opacity:0.1}
+.rt{font-size:1rem;font-weight:700;color:var(--f);margin-bottom:0.2rem}
+.rd{font-size:0.65rem;color:var(--g);opacity:0.68;line-height:1.6;margin-bottom:1rem}
+.mf{text-align:center;padding:1.2rem 0 0;font-size:0.57rem;color:var(--g);opacity:0.35;letter-spacing:0.04em}
+
+/* PRODUCT CARD */
+.pc{background:var(--w);border-radius:14px;padding:0.8rem 1rem;margin-bottom:0.55rem;display:flex;align-items:center;gap:0.75rem;border:1px solid var(--bd);text-decoration:none;color:inherit;transition:border-color 0.15s,box-shadow 0.15s}
+.pc:hover{border-color:var(--t);box-shadow:0 2px 12px rgba(62,205,197,0.12)}
+.pico{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.15rem;flex-shrink:0;background:var(--fl)}
+.pico.t{background:var(--tl)}
+.pinfo{flex:1;min-width:0}
+.pname{font-size:0.76rem;font-weight:700;color:var(--f);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pdetail{font-size:0.58rem;color:var(--g);opacity:0.65;margin-top:2px;line-height:1.3}
+.pright{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0}
+.pprice{font-size:0.95rem;font-weight:700;color:var(--f)}
+.pstrike{font-size:0.6rem;color:var(--g);opacity:0.38;text-decoration:line-through}
+.psave{font-size:0.52rem;font-weight:700;color:#1a7a1a;background:rgba(26,122,26,0.1);padding:2px 6px;border-radius:4px}
+
+/* PILLS */
+.pill{font-size:0.48rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:2px 7px;border-radius:100px;white-space:nowrap}
+.p-promo{background:var(--amber-bg);color:var(--amber)}
+.p-exclu{background:var(--f);color:var(--t)}
+.p-commande{background:var(--tl);color:var(--f)}
+.p-promo-code{background:rgba(62,205,197,0.18);color:var(--f)}
+
+/* PROMO CODE BLOC */
+.promo-bloc{background:var(--tl);border-radius:12px;padding:0.75rem 1rem;margin:0.25rem 0 0.85rem;border:1px solid rgba(62,205,197,0.3);display:flex;align-items:center;gap:0.75rem}
+.promo-code{font-family:monospace;font-size:0.88rem;font-weight:700;color:var(--f);background:var(--w);padding:4px 12px;border-radius:8px;border:1.5px dashed rgba(0,74,79,0.25);letter-spacing:0.08em}
+.promo-txt{font-size:0.6rem;color:var(--f);opacity:0.75;line-height:1.4}
+
+/* PARCOURS CARD */
+.parc{background:var(--w);border-radius:16px;border:1px solid var(--bd);overflow:hidden;margin-bottom:0.85rem;text-decoration:none;color:inherit;display:block;transition:border-color 0.18s,box-shadow 0.15s}
+.parc:hover{border-color:var(--t);box-shadow:0 2px 14px rgba(62,205,197,0.12)}
+.parc-header{padding:1rem 1.2rem 0.65rem}
+.parc-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:0.45rem}
+.parc-tag{font-size:0.48rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:2px 8px;border-radius:100px}
+.pt-famille{background:rgba(62,205,197,0.14);color:var(--f)}
+.pt-gravel{background:rgba(0,74,79,0.08);color:var(--f)}
+.pt-vacances{background:var(--amber-bg);color:var(--amber)}
+.parc-title{font-size:0.9rem;font-weight:700;color:var(--f);line-height:1.2;margin-bottom:0.3rem}
+.parc-sub{font-size:0.62rem;color:var(--g);opacity:0.68;line-height:1.55}
+.parc-footer{display:flex;gap:0.5rem;padding:0.6rem 1.2rem;background:var(--fl);border-top:1px solid var(--bd);flex-wrap:wrap;align-items:center}
+.parc-meta{display:flex;align-items:center;gap:3px;font-size:0.55rem;color:var(--f);opacity:0.6}
+.parc-link{margin-left:auto;font-size:0.57rem;font-weight:700;color:var(--t)}
+
+/* GRID */
+@media(min-width:640px){.two-col{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem}}
+
+/* UPCYCLING */
+.gis{display:flex;align-items:flex-start;gap:0.55rem;padding:0.5rem 0.7rem;background:var(--fl);border-radius:9px;border-left:3px solid var(--t);margin-bottom:0.4rem}
+.gis-ico{font-size:0.85rem;flex-shrink:0;margin-top:1px}
+.gis-name{font-size:0.65rem;font-weight:700;color:var(--f);margin-bottom:1px}
+.gis-detail{font-size:0.56rem;color:var(--g);opacity:0.65;line-height:1.4}
+
+/* CTA */
+.cta-row{background:var(--f);border-radius:14px;padding:0.85rem 1.1rem;margin-top:0.85rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.cta-row-txt{font-size:0.7rem;font-weight:700;color:#fff}
+.cta-row-link{font-size:0.7rem;font-weight:700;color:var(--t);white-space:nowrap;flex-shrink:0}
+
+/* DEMARCHE */
+.demarche-items{display:flex;flex-wrap:wrap;gap:5px;margin-top:0.6rem}
+.demarche-item{font-size:0.56rem;font-weight:600;padding:3px 9px;border-radius:100px;background:rgba(0,74,79,0.07);color:var(--f)}
+
+@media(max-width:600px){
+  .page-wrap{padding:1.25rem 1rem 3rem}
+  .hero{padding:1.75rem 1.25rem 1.5rem}
+  .hero-title{font-size:1.75rem}
+  .tab-body{padding:1rem 1rem 1.25rem}
+  .promo-bloc{flex-direction:column;align-items:flex-start;gap:0.4rem}
+}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eye">2R Aventure · Vélodrome de Roubaix</div>
+    <div class="hero-title">Partir léger,<br><em>aller loin.</em></div>
+    <div class="hero-sub">Parcours, équipements et conseils pour vos aventures à vélo — en famille, en amoureux, ou avec des copains.</div>
+    <div class="hero-badge">Bienvenue 👋</div>
+  </div>
+
+  <!-- STAND PILL -->
+  <div class="stand-pill">
+    <div class="stand-pill-ico">📍</div>
+    <div class="stand-pill-txt"><strong>Stand A2 — Vélodrome de Roubaix</strong><br>On est là ce week-end. Venez toucher, essayer, poser vos questions. On vient à vélo — et on repart à vélo.</div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs-wrap">
+    <div class="tabs" id="tabs-pub">
+      <button class="tab active" onclick="switchTab('parcours',0)">🗺 Parcours</button>
+      <button class="tab" onclick="switchTab('stand',1)">🎒 Équipements</button>
+      <button class="tab" onclick="switchTab('atelier',2)">✦ Fait ici</button>
+    </div>
+
+    <!-- ── PARCOURS ── -->
+    <div class="tab-body" id="pub-parcours">
+      <div class="rt">On a balisé la route pour vous.</div>
+      <div class="rd">Trois itinéraires conçus depuis Lille — chaque guide est une invitation concrète à enfourcher le vélo cette semaine, ce week-end, ou cet été.</div>
+
+      <a class="parc" href="https://2raventure.com/2026/05/14/5941/" target="_blank" rel="noopener">
+        <div class="parc-header">
+          <div class="parc-tags"><span class="parc-tag pt-famille">👨‍👩‍👧 Famille</span><span class="parc-tag pt-famille">Découverte</span></div>
+          <div class="parc-title">Le vélo en famille, depuis Lille</div>
+          <div class="parc-sub">Un premier départ sans pression — traces GPX, étapes accessibles, conseils pour embarquer les enfants sans que personne ne rentre en pleurant. La vraie promesse : vous reviendrez.</div>
+        </div>
+        <div class="parc-footer">
+          <span class="parc-meta">🚲 Tous niveaux</span>
+          <span class="parc-meta">📍 Départ Lille</span>
+          <span class="parc-meta">👶 Avec enfants</span>
+          <span class="parc-link">Voir le guide →</span>
+        </div>
+      </a>
+
+      <a class="parc" href="https://2raventure.com/2026/05/14/weekend-gravel-au-depart-de-lille-cassel-%e2%86%92-montreuil-sur-mer-2r-aventure/" target="_blank" rel="noopener">
+        <div class="parc-header">
+          <div class="parc-tags"><span class="parc-tag pt-gravel">🪨 Gravel</span><span class="parc-tag pt-gravel">Week-end</span></div>
+          <div class="parc-title">Week-end gravel · Cassel → Montreuil-sur-Mer</div>
+          <div class="parc-sub">En amoureux ou avec des copains — deux jours entre terrils, caps et côte d'Opale. Gravel dans les chemins, tables qui méritent le détour, nuit quelque part entre les deux.</div>
+        </div>
+        <div class="parc-footer">
+          <span class="parc-meta">🪨 Gravel / VTC</span>
+          <span class="parc-meta">📍 Cassel → Montreuil</span>
+          <span class="parc-meta">🗓 2 jours</span>
+          <span class="parc-link">Voir le guide →</span>
+        </div>
+      </a>
+
+      <a class="parc" href="https://2raventure.com/2026/05/13/vacances-en-famille-a-velo/" target="_blank" rel="noopener">
+        <div class="parc-header">
+          <div class="parc-tags"><span class="parc-tag pt-vacances">☀️ Vacances</span><span class="parc-tag pt-famille">Famille</span></div>
+          <div class="parc-title">Premières vacances en famille à vélo en France</div>
+          <div class="parc-sub">Pas besoin d'aller loin pour que ce soit une aventure. Un guide pensé pour les familles qui font ça pour la première fois : combien de km par jour, quoi emporter, comment gérer les jours sans élan — et les moments qui restent.</div>
+        </div>
+        <div class="parc-footer">
+          <span class="parc-meta">🚲 Itinérance</span>
+          <span class="parc-meta">🇫🇷 France</span>
+          <span class="parc-meta">👨‍👩‍👧 Famille</span>
+          <span class="parc-link">Voir le guide →</span>
+        </div>
+      </a>
+
+      <div class="cta-row">
+        <div class="cta-row-txt">Une question sur un parcours ? Venez nous voir.</div>
+        <div class="cta-row-link">Stand A2 →</div>
+      </div>
+
+      <div class="mf">2raventure.com · Guides gratuits · Traces GPX téléchargeables</div>
+    </div>
+
+    <!-- ── ÉQUIPEMENTS ── -->
+    <div class="tab-body" id="pub-stand" style="display:none">
+      <div class="rt">Sur le stand ce week-end</div>
+      <div class="rd">À toucher, à essayer, à emporter. Tarifs salon sur toutes les références ci-dessous — ce week-end uniquement.</div>
+
+      <div class="slbl">Hébergement suspendu & nomade</div>
+      <div class="two-col">
+        <div>
+          <a class="pc" href="https://www.2raventure.com/produit/tentsile-stingray-safari/" target="_blank" rel="noopener">
+            <div class="pico t">🌴</div>
+            <div class="pinfo"><div class="pname">Tentsile Stingray Safari</div><div class="pdetail">3 pers. · tente suspendue premium</div></div>
+            <div class="pright"><div class="pprice">999€</div><div class="pstrike">1 499€</div><span class="pill p-promo">Prix salon</span></div>
+          </a>
+          <a class="pc" href="https://2raventure.com/produit/tente-suspendue-tentsile-safari-connect/" target="_blank" rel="noopener">
+            <div class="pico">🌿</div>
+            <div class="pinfo"><div class="pname">Tentsile Connect Safari</div><div class="pdetail">2 pers. · hamac-tente</div></div>
+            <div class="pright"><div class="pprice">899€</div><div class="pstrike">1 199€</div><span class="pill p-promo">Prix salon</span></div>
+          </a>
+          <a class="pc" href="https://www.2raventure.com/produit/tentsile-stingray/" target="_blank" rel="noopener">
+            <div class="pico t">🏕️</div>
+            <div class="pinfo"><div class="pname">Tentsile Stingray</div><div class="pdetail">3 pers. · version classic</div></div>
+            <div class="pright"><div class="pprice">599€</div><div class="pstrike">849€</div><span class="pill p-promo">Prix salon</span></div>
+          </a>
+        </div>
+        <div>
+          <a class="pc" href="https://2raventure.com/produit/trillium/" target="_blank" rel="noopener">
+            <div class="pico">🔺</div>
+            <div class="pinfo"><div class="pname">Tentsile Trillium</div><div class="pdetail">3 pers. · plateforme triangulaire</div></div>
+            <div class="pright"><div class="pprice">349€</div><div class="pstrike">399€</div><span class="pill p-promo">Prix salon</span></div>
+          </a>
+          <a class="pc" href="https://2raventure.com/produit/flite/" target="_blank" rel="noopener">
+            <div class="pico t">🪶</div>
+            <div class="pinfo"><div class="pname">Tentsile Flite</div><div class="pdetail">2 pers. · ultra compact</div></div>
+            <div class="pright"><div class="pprice">299€</div><div class="pstrike">429€</div><span class="pill p-promo">Prix salon</span></div>
+          </a>
+          <a class="pc" href="https://www.2raventure.com/produit/hamac-cabaniste/" target="_blank" rel="noopener">
+            <div class="pico">🪢</div>
+            <div class="pinfo"><div class="pname">Hamac Cabaniste</div><div class="pdetail">Grand format · outdoor région</div></div>
+            <div class="pright"><div class="pprice">199€</div><div class="pstrike">349€</div><span class="pill p-promo">Prix salon</span></div>
+          </a>
+        </div>
+      </div>
+
+      <div class="slbl">Bikepacking & bivouac</div>
+      <div class="two-col">
+        <div>
+          <a class="pc" href="https://www.2raventure.com/produit/tente-plume/" target="_blank" rel="noopener">
+            <div class="pico t">⛺</div>
+            <div class="pinfo"><div class="pname">Tente Plume</div><div class="pdetail">Bivouac · légère · bikepacking</div></div>
+            <div class="pright"><div class="pprice">49€</div><div class="pstrike">109,90€</div><span class="pill p-promo">Prix salon</span></div>
+          </a>
+          <a class="pc" href="https://2raventure.com/produit/big-agnes-tiger-wall-ul-bikepack/" target="_blank" rel="noopener">
+            <div class="pico">⛺</div>
+            <div class="pinfo"><div class="pname">Big Agnes Tiger Wall UL Bikepack</div><div class="pdetail">Tente ultralight · spécial bikepacking</div></div>
+            <div class="pright"><span class="pill p-commande">Sur commande</span></div>
+          </a>
+          <a class="pc" href="https://2raventure.com/produit/big-agnes-matelas-double-rapide-sl/" target="_blank" rel="noopener">
+            <div class="pico t">😴</div>
+            <div class="pinfo"><div class="pname">Big Agnes Matelas Double Rapide SL</div><div class="pdetail">Matelas gonflable 2 pers. · léger</div></div>
+            <div class="pright"><span class="pill p-commande">Sur commande</span></div>
+          </a>
+        </div>
+        <div>
+          <a class="pc" href="https://2raventure.com/produit/guide-des-parcs-cabaniste/" target="_blank" rel="noopener">
+            <div class="pico">📖</div>
+            <div class="pinfo"><div class="pname">Guide Parcs HDF</div><div class="pdetail">48 parcours · édition 2024</div></div>
+            <div class="pright"><div class="pprice">19€</div><div class="pstrike">29€</div><span class="pill p-promo">Prix salon</span></div>
+          </a>
+          <a class="pc" href="https://2raventure.com/produit/remorque-de-velo-nomad/" target="_blank" rel="noopener">
+            <div class="pico t">🛒</div>
+            <div class="pinfo"><div class="pname">Remorque Nomad</div><div class="pdetail">Cargo vélo · tout terrain</div></div>
+            <div class="pright"><div class="pprice">199€</div><div class="pstrike">459€</div><span class="pill p-promo">Prix salon</span></div>
+          </a>
+        </div>
+      </div>
+
+      <div class="slbl">Sacoches Brooks · −30% sur commande</div>
+      <div class="promo-bloc">
+        <div class="promo-code">RBX-26</div>
+        <div class="promo-txt">Code à utiliser sur 2raventure.com · −30% sur les sacoches Brooks · commande en ligne, livraison à domicile</div>
+      </div>
+      <div class="two-col">
+        <div>
+          <a class="pc" href="https://2raventure.com/produit/brooks-panier-guidon-scape-handlebar-case/" target="_blank" rel="noopener">
+            <div class="pico t">🎒</div>
+            <div class="pinfo"><div class="pname">Brooks Scape Handlebar Case</div><div class="pdetail">Sacoche guidon · étanche · bikepacking</div></div>
+            <div class="pright"><span class="pill p-promo-code">−30% RBX-26</span></div>
+          </a>
+        </div>
+        <div>
+          <a class="pc" href="https://2raventure.com/produit/brooks-scape-frame-bag/" target="_blank" rel="noopener">
+            <div class="pico">🧳</div>
+            <div class="pinfo"><div class="pname">Brooks Scape Frame Bag</div><div class="pdetail">Sacoche cadre · accès rapide</div></div>
+            <div class="pright"><span class="pill p-promo-code">−30% RBX-26</span></div>
+          </a>
+        </div>
+      </div>
+
+      <div class="slbl">Sacoches Vaude · bikepacking & voyage</div>
+      <div class="two-col">
+        <div>
+          <a class="pc" href="https://2raventure.com/produit/vaude-sacoche-free-cargo/" target="_blank" rel="noopener">
+            <div class="pico t">🎽</div>
+            <div class="pinfo"><div class="pname">Vaude Free Cargo</div><div class="pdetail">Sacoche multi-fixations · légère · polyvalente</div></div>
+            <div class="pright"><span class="pill p-promo">Prix salon</span></div>
+          </a>
+          <a class="pc" href="https://2raventure.com/produit/vaude-sac-a-dos-sacoche-de-velo-proof-transformer-2in1/" target="_blank" rel="noopener">
+            <div class="pico">🎒</div>
+            <div class="pinfo"><div class="pname">Vaude Proof Transformer 2in1</div><div class="pdetail">Sac à dos / sacoche · convertible · étanche</div></div>
+            <div class="pright"><span class="pill p-promo">Prix salon</span></div>
+          </a>
+        </div>
+        <div>
+          <a class="pc" href="https://2raventure.com/produit/vaude-sacoche-de-porte-bagage-proof-back-tr-single/" target="_blank" rel="noopener">
+            <div class="pico t">🧳</div>
+            <div class="pinfo"><div class="pname">Vaude Proof Back TR Single</div><div class="pdetail">Sacoche porte-bagage · étanche · commuter & voyage</div></div>
+            <div class="pright"><span class="pill p-promo">Prix salon</span></div>
+          </a>
+        </div>
+      </div>
+
+      <div class="slbl">Vélos sur le stand</div>
+      <div class="two-col">
+        <div>
+          <a class="pc" href="https://2raventure.com/produit/rove/" target="_blank" rel="noopener">
+            <div class="pico t">🚲</div>
+            <div class="pinfo"><div class="pname">Kona Rove</div><div class="pdetail">Gravel polyvalent · famille · quotidien</div></div>
+            <div class="pright"><span class="pill p-commande">Sur commande</span></div>
+          </a>
+        </div>
+        <div>
+          <a class="pc" href="https://2raventure.com/produit/nevo4-vario/" target="_blank" rel="noopener">
+            <div class="pico">🛻</div>
+            <div class="pinfo"><div class="pname">R&amp;M Nevo4 Vario</div><div class="pdetail">E-bike cargo · famille</div></div>
+            <div class="pright"><span class="pill p-commande">Sur commande</span></div>
+          </a>
+          <a class="pc" href="https://2raventure.com/produit/load5/" target="_blank" rel="noopener">
+            <div class="pico t">🚚</div>
+            <div class="pinfo"><div class="pname">R&amp;M Load5</div><div class="pdetail">Cargo longtail électrique · enfants</div></div>
+            <div class="pright"><span class="pill p-commande">Sur commande</span></div>
+          </a>
+        </div>
+      </div>
+
+      <div style="margin-top:0.65rem;padding:0.7rem 0.9rem;background:var(--fl);border-radius:10px;font-size:0.58rem;color:var(--g);line-height:1.5;opacity:0.85">
+        <strong style="color:var(--f)">Sur commande</strong> — visible ce week-end, livraison sous 2–4 semaines. On conseille, vous commandez si vous voulez, sans engagement.
+      </div>
+
+      <div class="cta-row" style="margin-top:0.85rem">
+        <div class="cta-row-txt">Un produit vous intéresse ? Venez l'essayer.</div>
+        <div class="cta-row-link">Stand A2 →</div>
+      </div>
+
+      <div class="mf">2raventure.com · Stand A2 · Vélodrome de Roubaix</div>
+    </div>
+
+    <!-- ── FAIT ICI ── -->
+    <div class="tab-body" id="pub-atelier" style="display:none">
+      <div class="rt">Caba-roule 🎒</div>
+      <div class="rd">Sacoche vélo enfant · exclusivité salon · fabriquée à Ronchin · matières réemployées en Hauts-de-France.</div>
+
+      <a class="pc" href="https://2raventure.com/produit/sacoche-velo-enfant-upcyclee/" target="_blank" rel="noopener" style="margin-bottom:1rem">
+        <div class="pico t" style="font-size:1.4rem;width:46px;height:46px">🎒</div>
+        <div class="pinfo"><div class="pname">Caba-roule</div><div class="pdetail">Sacoche porte-bagage enfant · imperméable · pièce unique · Ronchin</div></div>
+        <div class="pright"><div class="pprice">49€</div><span class="pill p-exclu">Fait ici</span></div>
+      </a>
+
+      <div style="font-size:0.63rem;color:var(--g);line-height:1.7;margin-bottom:0.85rem">
+        Au départ, un problème simple : les sacoches pour enfants, ça n'existe presque pas — trop petites, trop fragiles, ou fabriquées à l'autre bout du monde. Alors on a fait la nôtre. Testée sur le terrain par des enfants vrais, dans des conditions pas toujours tendres.
+        <br><br>
+        Chaque Caba-roule est cousue à partir de chutes et rebuts de prototypes issus de la filière textile locale — des matières qui finissent d'habitude en déchet industriel. Résultat : aucun exemplaire identique, zéro gaspillage, et un objet qui raconte d'où il vient.
+      </div>
+
+      <div class="slbl">Les matières · D'où elles viennent</div>
+      <div class="gis">
+        <div class="gis-ico">🧵</div>
+        <div><div class="gis-name">Sangles — Lambin &amp; Ravaud · Comines-France</div><div class="gis-detail">Fabricant de rubans et sangles techniques — chutes de production réemployées pour les bretelles et fixations</div></div>
+      </div>
+      <div class="gis">
+        <div class="gis-ico">🛏</div>
+        <div><div class="gis-name">Renforts — Thiriez Literie · Wattrelos</div><div class="gis-detail">Tissus techniques de literie, récupérés en fin de série, reconvertis en renforts de fond et de paroi</div></div>
+      </div>
+      <div class="gis">
+        <div class="gis-ico">🚲</div>
+        <div><div class="gis-name">Tissus extérieurs — 2R Aventure · Lille</div><div class="gis-detail">Chutes de prototypes Cabaniste et autres projets R&amp;D — matières techniques imperméables</div></div>
+      </div>
+      <div class="gis" style="margin-bottom:1rem">
+        <div class="gis-ico">✂️</div>
+        <div><div class="gis-name">Confection &amp; prototypage — Aiguille Curieuse · Ronchin</div><div class="gis-detail">Atelier de couture créative et technique — chaque pièce cousue à la main, en nombre limité</div></div>
+      </div>
+
+      <div style="background:var(--w);border-radius:14px;border:1px solid var(--bd);overflow:hidden;margin-bottom:0.85rem">
+        <div style="background:rgba(0,74,79,0.04);padding:0.8rem 1.1rem;border-bottom:1px solid var(--bd)">
+          <div style="font-size:0.78rem;font-weight:700;color:var(--f)">Ce salon aussi, on l'a fait autrement.</div>
+          <div style="font-size:0.58rem;color:var(--g);opacity:0.6;margin-top:2px">La cohérence, ça commence par les détails.</div>
+        </div>
+        <div style="padding:0.85rem 1.1rem">
+          <div class="demarche-items">
+            <span class="demarche-item">🚲 On vient à vélo</span>
+            <span class="demarche-item">♻️ Bâche recyclée · imprimée à Tourcoing</span>
+            <span class="demarche-item">🛒 Tréteaux · Le Bon Coin</span>
+            <span class="demarche-item">🧺 Nappe de récupération</span>
+            <span class="demarche-item">📦 Produits de tests ayant vécu</span>
+            <span class="demarche-item">📄 Imprimerie papier recyclé</span>
+            <span class="demarche-item">🖨 Imprimerie partagée · Hauts-de-France</span>
+            <span class="demarche-item">🌿 Le moins de papier possible</span>
+          </div>
+          <div style="margin-top:0.65rem;font-size:0.58rem;color:var(--g);line-height:1.6;opacity:0.7">On n'est pas parfaits — on est en chemin. Ce stand est une vitrine de ce qu'on essaie de construire : des produits utiles, fabriqués près d'ici, avec ce qui existe déjà.</div>
+        </div>
+      </div>
+
+      <div class="cta-row">
+        <div class="cta-row-txt">Des questions sur la fabrication ?</div>
+        <div class="cta-row-link">Stand A2 →</div>
+      </div>
+
+      <div class="mf">2raventure.com · Stand A2 · Vélodrome de Roubaix</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function switchTab(key,idx){
+  ['pub-parcours','pub-stand','pub-atelier'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el)el.style.display='none';
+  });
+  var t=document.getElementById('pub-'+key);
+  if(t)t.style.display='block';
+  document.querySelectorAll('#tabs-pub .tab').forEach(function(b,i){
+    b.classList.toggle('active',i===idx);
+  });
+  document.querySelector('.tabs-wrap').scrollIntoView({behavior:'smooth',block:'start'});
+}
+</script>
+</body>
+</html>
